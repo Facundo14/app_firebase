@@ -12,7 +12,7 @@ class ColorService {
     final Map<String, dynamic> coloresMap = json.decode(res.body);
     coloresMap.forEach((key, value) {
       final temColores = ColorModel.fromJson(value);
-      temColores.color = key;
+      temColores.id = key;
       this.colores.add(temColores);
     });
     return this.colores;

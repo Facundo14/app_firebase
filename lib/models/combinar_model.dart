@@ -9,21 +9,29 @@ class CombinarModel {
     this.id,
     required this.color,
     required this.forma,
+    this.descripcion,
+    this.idFirebase,
   });
 
-  String? id;
+  int? id;
   String color;
   String forma;
+  String? descripcion;
+  String? idFirebase;
 
   factory CombinarModel.fromJson(Map<String, dynamic> json) => CombinarModel(
         id: json["id"],
         color: json["color"],
         forma: json["forma"],
+        descripcion: json["descripcion"],
+        idFirebase: json["idFirebase"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "color": color,
-        "descripcion": forma,
+        "forma": forma,
+        "descripcion": descripcion,
+        "idFirebase": idFirebase,
       };
 }

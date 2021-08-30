@@ -11,8 +11,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     DataProvider.obtienerColoresProvider();
     DataProvider.obtienerFormasProvider();
-    DataProvider.obtienerCombinacionFirebaseProvider();
-    // DataProvider.obtienerFormasProvider();
     return MaterialApp(
       title: 'Formas',
       debugShowCheckedModeBanner: false,

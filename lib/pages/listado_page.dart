@@ -5,6 +5,7 @@ import 'package:app_firebase/provider/data_provider.dart';
 class ListadoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    DataProvider.obtieneCombinadosProvider();
     return Scaffold(
       appBar: AppBar(
         title: Text('Listado'),
@@ -20,17 +21,9 @@ class ListadoPage extends StatelessWidget {
           return ListView.separated(
               separatorBuilder: (BuildContext context, int index) => const Divider(),
               itemCount: lista.length,
-              itemBuilder: (_, int index) {
-                return Column(
-                  children: [
-                    Container(
-                      child: Text(lista[index].color),
-                    ),
-                    Container(
-                      child: Text(lista[index].forma),
-                    ),
-                  ],
-                );
+              itemBuilder: (BuildContext context, int index) {
+                print(lista.length);
+                return Container();
               });
         },
       ),

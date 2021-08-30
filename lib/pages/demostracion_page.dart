@@ -1,3 +1,4 @@
+import 'package:app_firebase/provider/data_provider.dart';
 import 'package:flutter/material.dart';
 
 class DemostracionPage extends StatelessWidget {
@@ -9,8 +10,12 @@ class DemostracionPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Center(
-        child: Text('Hola Mundo'),
-      ),
+          child: Column(
+        children: [
+          Text(DataProvider.color),
+          Text(DataProvider.forma),
+        ],
+      )),
     );
   }
 }

@@ -24,14 +24,16 @@ class Dbase {
   Future<Database> iniDB() async {
     //Path donde esta la base de datos
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documentsDirectory.path, 'base.db');
+    final path = join(documentsDirectory.path, 'base5.db');
     print('=======================Base===================================');
     print(path);
     return await openDatabase(path, version: 1, onOpen: (db) {}, onCreate: (Database db, int version) async {
       await db.execute('''CREATE TABLE combinar (
-            Codigo TEXT,
+            id INTEGER PRIMARY KEY autoincrement,
             Color TEXT, 
-            Forma TEXT, PRIMARY KEY(Codigo)
+            Forma TEXT,
+            Descripcion TEXT,
+            IdFirebase TEXT
             )''');
     });
   }
@@ -40,11 +42,34 @@ class Dbase {
     List<CombinarModel> lstCombinados = [];
     try {
       final db = await database;
-      final res = await db.query('combinar', orderBy: 'Color');
+      final res = await db.query('combinar');
       lstCombinados = (res.isNotEmpty) ? res.map((item) => CombinarModel.fromJson(item)).toList() : [];
     } catch (errorsql) {
       print(errorsql.toString());
     } finally {}
     return lstCombinados;
+  }
+
+  Future<int> agregaCombinacion(CombinarModel combinar) async {
+    int res = 0;
+    try {
+      final db = await database;
+      res = await db.insert('combinar', combinar.toJson());
+    } catch (errorsql) {
+      print(errorsql.toString());
+    } finally {}
+    return res;
+  }
+
+  Future<List<CombinarModel>> obtienePlatos() async {
+    List<CombinarModel> ltsCombinaciones = [];
+    try {
+      final db = await database;
+      final res = await db.query('combinar', orderBy: 'Color');
+      ltsCombinaciones = (res.isNotEmpty) ? res.map((item) => CombinarModel.fromJson(item)).toList() : [];
+    } catch (errorsql) {
+      print(errorsql.toString());
+    } finally {}
+    return ltsCombinaciones;
   }
 }

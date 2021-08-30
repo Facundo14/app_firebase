@@ -1,11 +1,13 @@
-import 'package:app_firebase/data/color_servicio.dart';
+import 'package:app_firebase/data/bd_servicio.dart';
 import 'package:app_firebase/models/colores_model.dart';
+import 'package:app_firebase/models/combinar_model.dart';
 import 'package:app_firebase/models/forma_model.dart';
 import 'package:app_firebase/provider/data_provider.dart';
 import 'package:app_firebase/ui/input_decorations.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
+  final db = new Dbase();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +30,12 @@ class HomePage extends StatelessWidget {
             heroTag: 'btn-2',
             child: Icon(Icons.add),
             onPressed: () {
+              final combinar = new CombinarModel(
+                  color: DataProvider.color,
+                  forma: DataProvider.forma,
+                  descripcion: DataProvider.descripcion,
+                  idFirebase: DataProvider.idFirebase);
+              db.agregaCombinacion(combinar);
               Navigator.pushNamed(context, 'demostracion');
             },
           )
@@ -78,10 +86,14 @@ class _ComboColor extends StatelessWidget {
                 labelText: 'Colores',
                 prefixIcon: Icons.palette,
               ),
-              items: snapshot.data!.map<DropdownMenuItem<String>>((e) {
+              items: snapshot.data!.map<DropdownMenuItem<String>>((ColorModel value) {
                 return DropdownMenuItem(
-                  child: Text(e.descripcion),
-                  value: e.descripcion,
+                  child: Text(value.descripcion),
+                  value: value.descripcion,
+                  onTap: () {
+                    DataProvider.color = value.color;
+                    print(DataProvider.color);
+                  },
                 );
               }).toList(),
               onChanged: (_) {},
@@ -108,10 +120,14 @@ class _ComboForma extends StatelessWidget {
                 labelText: 'Formas',
                 prefixIcon: Icons.dashboard,
               ),
-              items: snapshot.data!.map<DropdownMenuItem<String>>((e) {
+              items: snapshot.data!.map<DropdownMenuItem<String>>((FormaModel value) {
                 return DropdownMenuItem(
-                  child: Text(e.descripcion),
-                  value: e.descripcion,
+                  child: Text(value.descripcion),
+                  value: value.descripcion,
+                  onTap: () {
+                    DataProvider.forma = value.descripcion;
+                    print(DataProvider.forma);
+                  },
                 );
               }).toList(),
               onChanged: (_) {},

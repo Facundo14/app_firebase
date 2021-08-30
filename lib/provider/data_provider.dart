@@ -1,13 +1,18 @@
 import 'dart:async';
+
 import 'package:app_firebase/data/bd_servicio.dart';
 import 'package:app_firebase/data/color_servicio.dart';
-import 'package:app_firebase/data/combinacion_servicio.dart';
 import 'package:app_firebase/data/forma_servicio.dart';
 import 'package:app_firebase/models/colores_model.dart';
 import 'package:app_firebase/models/combinar_model.dart';
 import 'package:app_firebase/models/forma_model.dart';
 
 class DataProvider {
+  static String idFirebase = 'asd';
+  static String descripcion = 'asd';
+  static String color = '0xff872D2D';
+  static String forma = 'Cuadrado';
+
   /// ---------------- Colores Cargar al Stream y Get del mismo ---------------------------*/
   static final StreamController<List<ColorModel>> _streamColorController = new StreamController.broadcast();
   static final StreamController<List<FormaModel>> _streamFromasController = new StreamController.broadcast();
@@ -29,17 +34,11 @@ class DataProvider {
     _streamFromasController.add(listaFormas);
   }
 
-  static void obtienerCombinacionFirebaseProvider() async {
-    final combinaService = new CombinarService();
-    final List<CombinarModel> listaCombina = await combinaService.loadCombinaciones();
-    _streamCombinaController.add(listaCombina);
+  static void obtieneCombinadosProvider() async {
+    final db = new Dbase();
+    final listaCombinaciones = await db.obtieneCombinados();
+    _streamCombinaController.add(listaCombinaciones);
   }
-
-  //  static void obtieneCombinacionesProvider() async {
-  //   final db = new Dbase();
-  //   final listaCombinaciones = await db.obtienePlatos();
-  //   _streamCombinarController.add(listaCombinaciones);
-  // }
 
   /// ---------------- CIERRES DE LOS STREAMS ---------------------------*/
   static dispose() {
