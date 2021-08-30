@@ -1,3 +1,7 @@
+import 'package:app_firebase/data/color_servicio.dart';
+import 'package:app_firebase/models/colores_model.dart';
+import 'package:app_firebase/models/forma_model.dart';
+import 'package:app_firebase/provider/data_provider.dart';
 import 'package:app_firebase/ui/input_decorations.dart';
 import 'package:flutter/material.dart';
 
@@ -58,50 +62,62 @@ class Rectangulo extends StatelessWidget {
 }
 
 class _ComboColor extends StatelessWidget {
-  final list = ['Rojo', 'Azul', 'Verde'];
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: DropdownButtonFormField<String>(
-        decoration: InputDecorations.authInputDecoration(
-          hintText: 'Colores',
-          labelText: 'Colores',
-          prefixIcon: Icons.palette,
-        ),
-        items: list
-            .map((String label) => DropdownMenuItem(
-                  child: Text(label),
-                  value: label,
-                ))
-            .toList(),
-        onChanged: (_) {},
-      ),
-    );
+    return StreamBuilder<List<ColorModel>>(
+        stream: DataProvider.streamColorController,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return CircularProgressIndicator();
+          }
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: DropdownButtonFormField<String>(
+              decoration: InputDecorations.authInputDecoration(
+                hintText: 'Colores',
+                labelText: 'Colores',
+                prefixIcon: Icons.palette,
+              ),
+              items: snapshot.data!.map<DropdownMenuItem<String>>((e) {
+                return DropdownMenuItem(
+                  child: Text(e.descripcion),
+                  value: e.descripcion,
+                );
+              }).toList(),
+              onChanged: (_) {},
+            ),
+          );
+        });
   }
 }
 
 class _ComboForma extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final list = ['Cuadrado', 'Triangulo', 'Rectangulo'];
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: DropdownButtonFormField<String>(
-        decoration: InputDecorations.authInputDecoration(
-          hintText: 'Formas',
-          labelText: 'Formas',
-          prefixIcon: Icons.dashboard,
-        ),
-        items: list
-            .map((String label) => DropdownMenuItem(
-                  child: Text(label),
-                  value: label,
-                ))
-            .toList(),
-        onChanged: (_) {},
-      ),
-    );
+    return StreamBuilder<List<FormaModel>>(
+        stream: DataProvider.streamFormaController,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return CircularProgressIndicator();
+          }
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: DropdownButtonFormField<String>(
+              decoration: InputDecorations.authInputDecoration(
+                hintText: 'Formas',
+                labelText: 'Formas',
+                prefixIcon: Icons.dashboard,
+              ),
+              items: snapshot.data!.map<DropdownMenuItem<String>>((e) {
+                return DropdownMenuItem(
+                  child: Text(e.descripcion),
+                  value: e.descripcion,
+                );
+              }).toList(),
+              onChanged: (_) {},
+            ),
+          );
+        });
   }
 }
 
