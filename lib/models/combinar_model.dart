@@ -21,8 +21,8 @@ class CombinarModel {
 
   factory CombinarModel.fromJson(Map<String, dynamic> json) => CombinarModel(
         id: json["id"],
-        color: json["color"],
-        forma: json["forma"],
+        color: json["color"] ?? '',
+        forma: json["forma"] ?? '',
         descripcion: json["descripcion"],
         idFirebase: json["idFirebase"],
       );

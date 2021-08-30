@@ -21,9 +21,27 @@ class ListadoPage extends StatelessWidget {
           return ListView.separated(
               separatorBuilder: (BuildContext context, int index) => const Divider(),
               itemCount: lista.length,
-              itemBuilder: (BuildContext context, int index) {
-                print(lista.length);
-                return Container();
+              itemBuilder: (_, int index) {
+                return Row(
+                  children: [
+                    SizedBox(width: 20),
+                    Container(
+                      child: Text('${lista[index].id}'),
+                    ),
+                    SizedBox(width: 20),
+                    Container(
+                      height: 20,
+                      width: 20,
+                      color: Color(int.parse(lista[index].color)),
+                    ),
+                    SizedBox(width: 50),
+                    Container(
+                      child: Text('${lista[index].forma}'),
+                    ),
+                    Spacer(),
+                    (lista[index].idFirebase != '') ? Icon(Icons.cloud_off) : Icon(Icons.cloud_done)
+                  ],
+                );
               });
         },
       ),
