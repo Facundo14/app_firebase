@@ -1,7 +1,5 @@
 import 'package:app_firebase/data/bd_servicio.dart';
-import 'package:app_firebase/models/colores_model.dart';
-import 'package:app_firebase/models/combinar_model.dart';
-import 'package:app_firebase/models/forma_model.dart';
+import 'package:app_firebase/models/models.dart';
 import 'package:app_firebase/provider/data_provider.dart';
 import 'package:app_firebase/ui/input_decorations.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +8,8 @@ class HomePage extends StatelessWidget {
   final db = new Dbase();
   @override
   Widget build(BuildContext context) {
+    DataProvider.obtienerColoresProvider();
+    DataProvider.obtienerFormasProvider();
     return Scaffold(
       appBar: AppBar(
         title: Text('Formas'),

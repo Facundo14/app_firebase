@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_firebase/models/combinar_model.dart';
+import 'package:app_firebase/models/models.dart';
 import 'package:app_firebase/provider/data_provider.dart';
 
 class ListadoPage extends StatelessWidget {

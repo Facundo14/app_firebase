@@ -1,11 +1,7 @@
 import 'dart:async';
 
-import 'package:app_firebase/data/bd_servicio.dart';
-import 'package:app_firebase/data/color_servicio.dart';
-import 'package:app_firebase/data/forma_servicio.dart';
-import 'package:app_firebase/models/colores_model.dart';
-import 'package:app_firebase/models/combinar_model.dart';
-import 'package:app_firebase/models/forma_model.dart';
+import 'package:app_firebase/data/servicios.dart';
+import 'package:app_firebase/models/models.dart';
 
 class DataProvider {
   static String idFirebase = 'asd';

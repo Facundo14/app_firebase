@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:app_firebase/models/colores_model.dart';
+import 'package:app_firebase/models/models.dart';
 import 'package:http/http.dart' as http;
 
 class ColorService {
