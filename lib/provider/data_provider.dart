@@ -2,6 +2,11 @@ import 'dart:async';
 
 import 'package:app_firebase/data/servicios.dart';
 import 'package:app_firebase/models/models.dart';
+import 'package:app_firebase/pages/home_page.dart';
+import 'package:app_firebase/widgets/animaciones.dart';
+import 'package:app_firebase/widgets/rectangulo.dart';
+import 'package:app_firebase/widgets/triangulo.dart';
+import 'package:flutter/material.dart';
 
 class DataProvider {
   static String idFirebase = 'asd';
@@ -34,6 +39,18 @@ class DataProvider {
     final db = new Dbase();
     final listaCombinaciones = await db.obtieneCombinados();
     _streamCombinaController.add(listaCombinaciones);
+  }
+
+  static Widget obtenerWidget() {
+    if (forma == 'Triangulo') {
+      return TrianguloAnimadoPage();
+    } else if (forma == 'Rectangulo') {
+      return RectanguloAnimadoPage();
+    } else if (forma == 'Cuadrado') {
+      return CuadradoAnimado();
+    } else {
+      return TrianguloAnimadoPage();
+    }
   }
 
   /// ---------------- CIERRES DE LOS STREAMS ---------------------------*/
