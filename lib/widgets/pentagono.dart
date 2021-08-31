@@ -89,8 +89,8 @@ class Pentagono extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
-          height: 150,
-          width: 150,
+          height: DataProvider.randomNumber(),
+          width: DataProvider.randomNumber(),
           color: Colors.transparent,
           child: CustomPaint(
             painter: _PentagonoPainter(),

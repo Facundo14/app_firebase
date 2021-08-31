@@ -64,8 +64,6 @@ class _CirculoAnimadoState extends State<_CirculoAnimado> with SingleTickerProvi
     ));
 
     controller.addListener(() {
-      print("Status: " + controller.status.toString());
-
       if (controller.status == AnimationStatus.completed) {
         controller.reverse();
       }
@@ -90,8 +88,6 @@ class _CirculoAnimadoState extends State<_CirculoAnimado> with SingleTickerProvi
       animation: controller,
       child: Ciruculo(),
       builder: (BuildContext context, Widget? childRectangulo) {
-        print('Opacidad: ${opacidad.status}');
-        print('Mover Derecha: ${moverDerecha.status}');
         return Transform.translate(
           offset: Offset(moverArriba.value, 0),
           child: Transform.translate(
@@ -113,8 +109,8 @@ class Ciruculo extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
-          height: 150,
-          width: 150,
+          height: DataProvider.randomNumber(),
+          width: DataProvider.randomNumber(),
           color: Colors.transparent,
           child: CustomPaint(
             painter: _CirculoPainter(),

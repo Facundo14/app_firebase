@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:app_firebase/data/servicios.dart';
 import 'package:app_firebase/models/models.dart';
@@ -14,6 +15,17 @@ class DataProvider {
   static String descripcion = 'asd';
   static String color = '0xff872D2D';
   static String forma = 'Cuadrado';
+
+  static double randomNumber() {
+    var random = new Random();
+
+    int min = 10;
+
+    int max = 200;
+
+    int result = min + random.nextInt(max - min);
+    return result.toDouble();
+  }
 
   /// ---------------- Colores Cargar al Stream y Get del mismo ---------------------------*/
   static final StreamController<List<ColorModel>> _streamColorController = new StreamController.broadcast();

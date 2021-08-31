@@ -56,8 +56,6 @@ class _TrianguloAnimadoState extends State<_TrianguloAnimado> with SingleTickerP
     ));
 
     controller.addListener(() {
-      print("Status: " + controller.status.toString());
-
       if (controller.status == AnimationStatus.completed) {
         controller.reverse();
       }
@@ -82,8 +80,6 @@ class _TrianguloAnimadoState extends State<_TrianguloAnimado> with SingleTickerP
       animation: controller,
       child: _Triangulo(),
       builder: (BuildContext context, Widget? childRectangulo) {
-        print('Opacidad: ${opacidad.status}');
-        print('Mover Derecha: ${moverDerecha.status}');
         return Transform.scale(
           scale: agrandar.value,
           child: Transform.rotate(
@@ -101,8 +97,8 @@ class _Triangulo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 150,
-        height: 150,
+        width: DataProvider.randomNumber(),
+        height: DataProvider.randomNumber(),
         child: CustomPaint(
           painter: _TrianguloPainter(),
         ),

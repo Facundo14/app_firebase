@@ -56,8 +56,6 @@ class _RectanguloAnimadoState extends State<RectanguloAnimado> with SingleTicker
     ));
 
     controller.addListener(() {
-      print("Status: " + controller.status.toString());
-
       if (controller.status == AnimationStatus.completed) {
         controller.reverse();
       }
@@ -82,8 +80,6 @@ class _RectanguloAnimadoState extends State<RectanguloAnimado> with SingleTicker
       animation: controller,
       child: _Rectangulo(),
       builder: (BuildContext context, Widget? childRectangulo) {
-        print('Opacidad: ${opacidad.status}');
-        print('Mover Derecha: ${moverDerecha.status}');
         return Transform.scale(
           scale: agrandar.value,
           child: Transform.translate(
@@ -104,8 +100,8 @@ class _Rectangulo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 150,
-        height: 70,
+        width: DataProvider.randomNumber(),
+        height: DataProvider.randomNumber(),
         decoration: BoxDecoration(color: Color(int.parse(DataProvider.color))),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:app_firebase/ui/input_decorations.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
+  final _formKeyCreate = GlobalKey<FormState>();
   final db = new Dbase();
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class HomePage extends StatelessWidget {
         title: Text('Formas'),
         centerTitle: true,
       ),
-      body: Rectangulo(),
+      body: Rectangulo(formKey: this._formKeyCreate),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -30,13 +31,15 @@ class HomePage extends StatelessWidget {
             heroTag: 'btn-2',
             child: Icon(Icons.add),
             onPressed: () {
-              final combinar = new CombinarModel(
-                  color: DataProvider.color,
-                  forma: DataProvider.forma,
-                  descripcion: DataProvider.descripcion,
-                  idFirebase: DataProvider.idFirebase);
-              db.agregaCombinacion(combinar);
-              Navigator.pushNamed(context, 'demostracion');
+              if (_formKeyCreate.currentState!.validate()) {
+                final combinar = new CombinarModel(
+                    color: DataProvider.color,
+                    forma: DataProvider.forma,
+                    descripcion: DataProvider.descripcion,
+                    idFirebase: DataProvider.idFirebase);
+                db.agregaCombinacion(combinar);
+                Navigator.pushNamed(context, 'demostracion');
+              }
             },
           )
         ],
@@ -46,6 +49,9 @@ class HomePage extends StatelessWidget {
 }
 
 class Rectangulo extends StatelessWidget {
+  final GlobalKey<FormState> formKey;
+
+  const Rectangulo({required this.formKey});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,16 +59,17 @@ class Rectangulo extends StatelessWidget {
       child: SingleChildScrollView(
         child: Container(
           child: Form(
+              key: formKey,
               child: Column(
-            children: [
-              SizedBox(height: 20),
-              _ComboColor(),
-              SizedBox(height: 20),
-              _ComboForma(),
-              SizedBox(height: 20),
-              _DescripcionText(),
-            ],
-          )),
+                children: [
+                  SizedBox(height: 20),
+                  _ComboColor(),
+                  SizedBox(height: 20),
+                  _ComboForma(),
+                  SizedBox(height: 20),
+                  _DescripcionText(),
+                ],
+              )),
         ),
       ),
     );
@@ -88,7 +95,19 @@ class _ComboColor extends StatelessWidget {
               ),
               items: snapshot.data!.map<DropdownMenuItem<String>>((ColorModel value) {
                 return DropdownMenuItem(
-                  child: Text(value.descripcion),
+                  child: Row(
+                    children: [
+                      SizedBox(width: 20),
+                      Icon(Icons.colorize),
+                      Text(value.descripcion),
+                      SizedBox(width: 20),
+                      Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: Color(int.parse(value.color))),
+                      )
+                    ],
+                  ),
                   value: value.descripcion,
                   onTap: () {
                     DataProvider.color = value.color;
@@ -115,6 +134,7 @@ class _ComboForma extends StatelessWidget {
           return Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
             child: DropdownButtonFormField<String>(
+              
               decoration: InputDecorations.authInputDecoration(
                 hintText: 'Formas',
                 labelText: 'Formas',
@@ -140,10 +160,11 @@ class _ComboForma extends StatelessWidget {
 class _DescripcionText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _descripcionController = new TextEditingController();
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
-        //controller: _codigoController,
+        controller: _descripcionController,
         cursorColor: Theme.of(context).accentColor,
         decoration: InputDecorations.authInputDecoration(
           hintText: 'Descripción',

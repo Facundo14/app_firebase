@@ -58,8 +58,6 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
     ));
 
     controller.addListener(() {
-      print("Status: " + controller.status.toString());
-
       if (controller.status == AnimationStatus.completed) {
         controller.reverse();
       }
@@ -84,8 +82,6 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
       animation: controller,
       child: _Rectangulo(),
       builder: (BuildContext context, Widget? childRectangulo) {
-        print('Opacidad: ${opacidad.status}');
-        print('Mover Derecha: ${moverDerecha.status}');
         return Transform.scale(
           scale: agrandar.value,
           child: Transform.translate(
@@ -104,10 +100,12 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
 class _Rectangulo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final double ancho = DataProvider.randomNumber();
+    final double alto = ancho;
     return Center(
       child: Container(
-        width: 70,
-        height: 70,
+        width: ancho,
+        height: alto,
         decoration: BoxDecoration(color: Color(int.parse(DataProvider.color))),
       ),
     );
