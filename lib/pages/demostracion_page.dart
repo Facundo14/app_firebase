@@ -1,7 +1,5 @@
 import 'package:app_firebase/provider/data_provider.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as Math;
-import 'package:app_firebase/widgets/triangulo.dart';
 
 class DemostracionPage extends StatelessWidget {
   @override

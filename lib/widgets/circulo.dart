@@ -1,30 +1,32 @@
-import 'package:app_firebase/provider/data_provider.dart';
 import 'dart:math' as Math;
+
+import 'package:app_firebase/provider/data_provider.dart';
 import 'package:flutter/material.dart';
 
-class TrianguloAnimadoPage extends StatelessWidget {
+class CirculoAnimadoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _TrianguloAnimado(),
+        child: _CirculoAnimado(),
       ),
     );
   }
 }
 
-class _TrianguloAnimado extends StatefulWidget {
+class _CirculoAnimado extends StatefulWidget {
   @override
-  _TrianguloAnimadoState createState() => _TrianguloAnimadoState();
+  _CirculoAnimadoState createState() => _CirculoAnimadoState();
 }
 
-class _TrianguloAnimadoState extends State<_TrianguloAnimado> with SingleTickerProviderStateMixin {
+class _CirculoAnimadoState extends State<_CirculoAnimado> with SingleTickerProviderStateMixin {
   late AnimationController controller;
 
   late Animation<double> rotacion;
   late Animation<double> opacidad;
   late Animation<double> opacidadOut;
   late Animation<double> moverDerecha;
+  late Animation<double> moverArriba;
   late Animation<double> agrandar;
 
   @override
@@ -49,6 +51,12 @@ class _TrianguloAnimadoState extends State<_TrianguloAnimado> with SingleTickerP
     ));
 
     moverDerecha = Tween(begin: 0.0, end: 100.0).animate(controller);
+    moverArriba = Tween(begin: 0.0, end: -100.0).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(0.25, 0.5, curve: Curves.bounceOut),
+      ),
+    );
 
     agrandar = Tween(begin: 0.0, end: 2.0).animate(CurvedAnimation(
       parent: controller,
@@ -80,15 +88,18 @@ class _TrianguloAnimadoState extends State<_TrianguloAnimado> with SingleTickerP
     controller.forward();
     return AnimatedBuilder(
       animation: controller,
-      child: _Triangulo(),
+      child: Ciruculo(),
       builder: (BuildContext context, Widget? childRectangulo) {
         print('Opacidad: ${opacidad.status}');
         print('Mover Derecha: ${moverDerecha.status}');
-        return Transform.scale(
-          scale: agrandar.value,
-          child: Transform.rotate(
-            angle: rotacion.value,
-            child: childRectangulo,
+        return Transform.translate(
+          offset: Offset(moverArriba.value, 0),
+          child: Transform.translate(
+            offset: Offset(moverDerecha.value, 0),
+            child: Transform.scale(
+              scale: agrandar.value,
+              child: childRectangulo,
+            ),
           ),
         );
       },
@@ -96,22 +107,25 @@ class _TrianguloAnimadoState extends State<_TrianguloAnimado> with SingleTickerP
   }
 }
 
-class _Triangulo extends StatelessWidget {
+class Ciruculo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: 150,
-        height: 150,
-        child: CustomPaint(
-          painter: _TrianguloPainter(),
+    return Scaffold(
+      body: Center(
+        child: Container(
+          height: 150,
+          width: 150,
+          color: Colors.transparent,
+          child: CustomPaint(
+            painter: _CirculoPainter(),
+          ),
         ),
       ),
     );
   }
 }
 
-class _TrianguloPainter extends CustomPainter {
+class _CirculoPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = new Paint();
@@ -121,15 +135,10 @@ class _TrianguloPainter extends CustomPainter {
     paint.style = PaintingStyle.fill;
     paint.strokeWidth = 2;
 
-    final path = new Path();
+    final center = new Offset(size.width * 0.5, size.height * 0.5);
+    final radio = Math.min(size.width * 0.5, size.height * 0.5);
 
-    //Dibujar con el path y el lapiz
-    path.moveTo(size.width * 0.5, 0);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-
-    //path.lineTo(0, size.height);
-    canvas.drawPath(path, paint);
+    canvas.drawCircle(center, radio, paint);
   }
 
   @override

@@ -1,30 +1,32 @@
-import 'package:app_firebase/provider/data_provider.dart';
 import 'dart:math' as Math;
+
+import 'package:app_firebase/provider/data_provider.dart';
 import 'package:flutter/material.dart';
 
-class TrianguloAnimadoPage extends StatelessWidget {
+class PentagonoAnimadoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _TrianguloAnimado(),
+        child: _CirculoAnimado(),
       ),
     );
   }
 }
 
-class _TrianguloAnimado extends StatefulWidget {
+class _CirculoAnimado extends StatefulWidget {
   @override
-  _TrianguloAnimadoState createState() => _TrianguloAnimadoState();
+  _CirculoAnimadoState createState() => _CirculoAnimadoState();
 }
 
-class _TrianguloAnimadoState extends State<_TrianguloAnimado> with SingleTickerProviderStateMixin {
+class _CirculoAnimadoState extends State<_CirculoAnimado> with SingleTickerProviderStateMixin {
   late AnimationController controller;
 
   late Animation<double> rotacion;
   late Animation<double> opacidad;
   late Animation<double> opacidadOut;
   late Animation<double> moverDerecha;
+  late Animation<double> moverArriba;
   late Animation<double> agrandar;
 
   @override
@@ -39,25 +41,12 @@ class _TrianguloAnimadoState extends State<_TrianguloAnimado> with SingleTickerP
       curve: Curves.easeOut,
     ));
 
-    opacidad = Tween(begin: 0.1, end: 1.0).animate(CurvedAnimation(
-      parent: controller,
-      curve: Interval(0, 0.25, curve: Curves.easeOut),
-    ));
-    opacidadOut = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-      parent: controller,
-      curve: Interval(0.75, 1.0, curve: Curves.easeOut),
-    ));
-
-    moverDerecha = Tween(begin: 0.0, end: 100.0).animate(controller);
-
     agrandar = Tween(begin: 0.0, end: 2.0).animate(CurvedAnimation(
       parent: controller,
       curve: Interval(0, 0.25, curve: Curves.easeOut),
     ));
 
     controller.addListener(() {
-      print("Status: " + controller.status.toString());
-
       if (controller.status == AnimationStatus.completed) {
         controller.reverse();
       }
@@ -80,14 +69,12 @@ class _TrianguloAnimadoState extends State<_TrianguloAnimado> with SingleTickerP
     controller.forward();
     return AnimatedBuilder(
       animation: controller,
-      child: _Triangulo(),
+      child: Pentagono(),
       builder: (BuildContext context, Widget? childRectangulo) {
-        print('Opacidad: ${opacidad.status}');
-        print('Mover Derecha: ${moverDerecha.status}');
-        return Transform.scale(
-          scale: agrandar.value,
-          child: Transform.rotate(
-            angle: rotacion.value,
+        return Transform.rotate(
+          angle: rotacion.value,
+          child: Transform.scale(
+            scale: agrandar.value,
             child: childRectangulo,
           ),
         );
@@ -96,22 +83,25 @@ class _TrianguloAnimadoState extends State<_TrianguloAnimado> with SingleTickerP
   }
 }
 
-class _Triangulo extends StatelessWidget {
+class Pentagono extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: 150,
-        height: 150,
-        child: CustomPaint(
-          painter: _TrianguloPainter(),
+    return Scaffold(
+      body: Center(
+        child: Container(
+          height: 150,
+          width: 150,
+          color: Colors.transparent,
+          child: CustomPaint(
+            painter: _PentagonoPainter(),
+          ),
         ),
       ),
     );
   }
 }
 
-class _TrianguloPainter extends CustomPainter {
+class _PentagonoPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = new Paint();
@@ -125,8 +115,10 @@ class _TrianguloPainter extends CustomPainter {
 
     //Dibujar con el path y el lapiz
     path.moveTo(size.width * 0.5, 0);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height * 0.5);
+    path.lineTo(size.width * 0.75, size.height);
+    path.lineTo(size.width * 0.25, size.height);
+    path.lineTo(0, size.height * 0.5);
 
     //path.lineTo(0, size.height);
     canvas.drawPath(path, paint);

@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:app_firebase/data/servicios.dart';
 import 'package:app_firebase/models/models.dart';
-import 'package:app_firebase/pages/home_page.dart';
 import 'package:app_firebase/widgets/animaciones.dart';
+import 'package:app_firebase/widgets/circulo.dart';
+import 'package:app_firebase/widgets/pentagono.dart';
 import 'package:app_firebase/widgets/rectangulo.dart';
 import 'package:app_firebase/widgets/triangulo.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,10 @@ class DataProvider {
       return RectanguloAnimadoPage();
     } else if (forma == 'Cuadrado') {
       return CuadradoAnimado();
+    } else if (forma == 'Circulo') {
+      return CirculoAnimadoPage();
+    } else if (forma == 'Pentagono') {
+      return PentagonoAnimadoPage();
     } else {
       return TrianguloAnimadoPage();
     }
