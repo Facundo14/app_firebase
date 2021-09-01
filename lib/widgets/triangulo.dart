@@ -84,7 +84,10 @@ class _TrianguloAnimadoState extends State<_TrianguloAnimado> with SingleTickerP
           scale: agrandar.value,
           child: Transform.rotate(
             angle: rotacion.value,
-            child: childRectangulo,
+            child: Transform.translate(
+              offset: Offset(moverDerecha.value, 0),
+              child: childRectangulo,
+            ),
           ),
         );
       },

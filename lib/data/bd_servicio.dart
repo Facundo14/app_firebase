@@ -24,13 +24,14 @@ class Dbase {
   Future<Database> iniDB() async {
     //Path donde esta la base de datos
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documentsDirectory.path, 'base6.db');
+    final path = join(documentsDirectory.path, 'base14.db');
     print('=======================Base===================================');
     print(path);
     return await openDatabase(path, version: 1, onOpen: (db) {}, onCreate: (Database db, int version) async {
       await db.execute('''CREATE TABLE combinar (
             id INTEGER PRIMARY KEY autoincrement,
             color TEXT, 
+            colorNombre TEXT,
             forma TEXT,
             descripcion TEXT,
             idFirebase TEXT
@@ -42,7 +43,7 @@ class Dbase {
     List<CombinarModel> lstCombinados = [];
     try {
       final db = await database;
-      final res = await db.query('combinar', orderBy: 'color');
+      final res = await db.query('combinar', orderBy: 'colorNombre');
       lstCombinados = (res.isNotEmpty) ? res.map((item) => CombinarModel.fromJson(item)).toList() : [];
     } catch (errorsql) {
       print(errorsql.toString());

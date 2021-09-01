@@ -33,11 +33,13 @@ class HomePage extends StatelessWidget {
             onPressed: () {
               if (_formKeyCreate.currentState!.validate()) {
                 final combinar = new CombinarModel(
+                    colorNombre: DataProvider.colorNombre,
                     color: DataProvider.color,
                     forma: DataProvider.forma,
                     descripcion: DataProvider.descripcion,
                     idFirebase: DataProvider.idFirebase);
                 db.agregaCombinacion(combinar);
+                DataProvider.limpiar();
                 Navigator.pushNamed(context, 'demostracion');
               }
             },
@@ -85,9 +87,12 @@ class _ComboColor extends StatelessWidget {
           if (!snapshot.hasData) {
             return CircularProgressIndicator();
           }
+          print(DataProvider.colorSeleccionado);
+          print(DataProvider.formaSeleccionada);
           return Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
             child: DropdownButtonFormField<String>(
+              value: (DataProvider.colorSeleccionado != '') ? DataProvider.colorSeleccionado : null,
               decoration: InputDecorations.authInputDecoration(
                 hintText: 'Colores',
                 labelText: 'Colores',
@@ -111,7 +116,9 @@ class _ComboColor extends StatelessWidget {
                   value: value.descripcion,
                   onTap: () {
                     DataProvider.color = value.color;
+                    DataProvider.colorNombre = value.descripcion;
                     print(DataProvider.color);
+                    print(DataProvider.descripcion);
                   },
                 );
               }).toList(),
@@ -134,7 +141,7 @@ class _ComboForma extends StatelessWidget {
           return Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
             child: DropdownButtonFormField<String>(
-              
+              value: (DataProvider.formaSeleccionada != '') ? DataProvider.formaSeleccionada : null,
               decoration: InputDecorations.authInputDecoration(
                 hintText: 'Formas',
                 labelText: 'Formas',
